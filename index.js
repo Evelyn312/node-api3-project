@@ -9,6 +9,7 @@ const port = 5000;
 
 server.use(express.json());
 
+server.use(morgan("combined"));
 server.use(usersRouter);
 server.use(postsRouter);
 

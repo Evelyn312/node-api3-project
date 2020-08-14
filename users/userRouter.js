@@ -5,7 +5,7 @@ const { getUserPosts } = require('./userDb');
 
 const router = express.Router();
 
-router.post('/',checkUserData(), (req, res) => {
+router.post('/users',checkUserData(), (req, res) => {
   users.insert(req.body)
     .then((user) => {
       res.status(201).json(user);
@@ -16,7 +16,7 @@ router.post('/',checkUserData(), (req, res) => {
     })
 });
 
-router.post('/:id/posts',checkPostData(),checkUserId(), (req, res, next) => {
+router.post('/users/:id/posts',checkPostData(),checkUserId(), (req, res, next) => {
   users.addpost(req.body)
     .then((post) => {
       res.status(201).json(post);
@@ -27,7 +27,7 @@ router.post('/:id/posts',checkPostData(),checkUserId(), (req, res, next) => {
     })
 });
 
-router.get('/', (req, res) => {
+router.get('/users', (req, res) => {
   users.get(users)
     .then((users) => {
       res.status(200).json(users);
@@ -37,11 +37,11 @@ router.get('/', (req, res) => {
     })
 });
 
-router.get('/:id', checkUserId(),(req, res) => {
+router.get('/users/:id', checkUserId(),(req, res) => {
   res.status(200).json(req.user);
 });
 
-router.get('/:id/posts',checkUserId(), (req, res) => {
+router.get('/users/:id/posts',checkUserId(), (req, res) => {
   console.log(req.user.id, "user id");
   getUserPosts(req.user.id)
     .then((posts) => {
@@ -52,7 +52,7 @@ router.get('/:id/posts',checkUserId(), (req, res) => {
     })
 });
 
-router.delete('/:id',checkUserId(), (req, res) => {
+router.delete('users/:id',checkUserId(), (req, res) => {
   users.remove(req.user.id)
     .then((count) => {
       if (count > 0) {
@@ -73,7 +73,7 @@ router.delete('/:id',checkUserId(), (req, res) => {
     })
 });
 
-router.put('/:id',checkUserData(),checkUserId(), (req, res) => {
+router.put('/users/:id',checkUserData(),checkUserId(), (req, res) => {
   users.update(req.params.id, req.body)
   .then((user) => {
     if (user) {
